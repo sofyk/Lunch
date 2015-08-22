@@ -1,1 +1,31 @@
-"format register";System.register("components/people/people",["angular2/angular2","angular2/angular2"],!0,function(require,e,t){var n=System.global,r=n.define;n.define=void 0;var o=this&&this.__decorate||function(e,t,n,r){if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)return Reflect.decorate(e,t,n,r);switch(arguments.length){case 2:return e.reduceRight(function(e,t){return t&&t(e)||e},t);case 3:return e.reduceRight(function(e,r){return void(r&&r(t,n))},void 0);case 4:return e.reduceRight(function(e,r){return r&&r(t,n,e)||e},r)}},a=this&&this.__metadata||function(e,t){return"object"==typeof Reflect&&"function"==typeof Reflect.metadata?Reflect.metadata(e,t):void 0},i=require("angular2/angular2"),c=require("angular2/angular2"),u=function(){function e(e){var t=this;e.get("../../data/people.json").toRx().map(function(e){return e.json()}).subscribe(function(e){return t.people=e})}return e=o([i.Component({selector:"people",viewInjector:[c.httpInjectables]}),i.View({templateUrl:"./components/people/people.html",directives:[i.NgFor]}),a("design:paramtypes",[c.Http])],e)}();return e.People=u,n.define=r,t.exports}),System.register("components/main/main",["angular2/angular2","components/people/people"],!0,function(require,e,t){var n=System.global,r=n.define;n.define=void 0;var o=this&&this.__decorate||function(e,t,n,r){if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)return Reflect.decorate(e,t,n,r);switch(arguments.length){case 2:return e.reduceRight(function(e,t){return t&&t(e)||e},t);case 3:return e.reduceRight(function(e,r){return void(r&&r(t,n))},void 0);case 4:return e.reduceRight(function(e,r){return r&&r(t,n,e)||e},r)}},a=this&&this.__metadata||function(e,t){return"object"==typeof Reflect&&"function"==typeof Reflect.metadata?Reflect.metadata(e,t):void 0},i=require("angular2/angular2"),c=require("components/people/people"),u=function(){function e(){}return e=o([i.Component({selector:"main"}),i.View({templateUrl:"./components/main/main.html",directives:[c.People]}),a("design:paramtypes",[])],e)}();return e.Main=u,n.define=r,t.exports}),System.register("app",["angular2/angular2","components/main/main"],!0,function(require,e,t){var n=System.global,r=n.define;n.define=void 0;var o=this&&this.__decorate||function(e,t,n,r){if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)return Reflect.decorate(e,t,n,r);switch(arguments.length){case 2:return e.reduceRight(function(e,t){return t&&t(e)||e},t);case 3:return e.reduceRight(function(e,r){return void(r&&r(t,n))},void 0);case 4:return e.reduceRight(function(e,r){return r&&r(t,n,e)||e},r)}},a=this&&this.__metadata||function(e,t){return"object"==typeof Reflect&&"function"==typeof Reflect.metadata?Reflect.metadata(e,t):void 0},i=require("angular2/angular2"),c=require("components/main/main"),u=function(){function e(){}return e=o([i.Component({selector:"app"}),i.View({templateUrl:"app.html",directives:[c.Main]}),a("design:paramtypes",[])],e)}();return i.bootstrap(u),n.define=r,t.exports});
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
+    switch (arguments.length) {
+        case 2: return decorators.reduceRight(function(o, d) { return (d && d(o)) || o; }, target);
+        case 3: return decorators.reduceRight(function(o, d) { return (d && d(target, key)), void 0; }, void 0);
+        case 4: return decorators.reduceRight(function(o, d) { return (d && d(target, key, o)) || o; }, desc);
+    }
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var angular2_1 = require('angular2/angular2');
+var main_1 = require('./components/main/main');
+var App = (function () {
+    function App() {
+    }
+    App = __decorate([
+        angular2_1.Component({
+            selector: 'app'
+        }),
+        angular2_1.View({
+            templateUrl: 'app.html',
+            directives: [main_1.Main]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], App);
+    return App;
+})();
+angular2_1.bootstrap(App);
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC50cyJdLCJuYW1lcyI6WyJBcHAiLCJBcHAuY29uc3RydWN0b3IiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBQUEseUJBQXNGLG1CQUFtQixDQUFDLENBQUE7QUFFMUcscUJBQW1CLHdCQUF3QixDQUFDLENBQUE7QUFFNUM7SUFRRUE7SUFBZUMsQ0FBQ0E7SUFSbEJEO1FBQUNBLG9CQUFTQSxDQUFDQTtZQUNUQSxRQUFRQSxFQUFFQSxLQUFLQTtTQUNoQkEsQ0FBQ0E7UUFDREEsZUFBSUEsQ0FBQ0E7WUFDSkEsV0FBV0EsRUFBRUEsVUFBVUE7WUFDdkJBLFVBQVVBLEVBQUVBLENBQUNBLFdBQUlBLENBQUNBO1NBQ25CQSxDQUFDQTs7WUFHREE7SUFBREEsVUFBQ0E7QUFBREEsQ0FUQSxBQVNDQSxJQUFBO0FBR0Qsb0JBQVMsQ0FBQyxHQUFHLENBQUMsQ0FBQyIsImZpbGUiOiJhcHAuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge2Jvb3RzdHJhcCwgQ29tcG9uZW50LCBWaWV3LCBOZ0lmLCBiaW5kLCBJbmplY3QsIE9ic2VydmFibGUsIEZvcm1CdWlsZGVyfSBmcm9tICdhbmd1bGFyMi9hbmd1bGFyMic7XG5cbmltcG9ydCB7TWFpbn0gZnJvbSAnLi9jb21wb25lbnRzL21haW4vbWFpbic7XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ2FwcCdcbn0pXG5AVmlldyh7XG4gIHRlbXBsYXRlVXJsOiAnYXBwLmh0bWwnLFxuICBkaXJlY3RpdmVzOiBbTWFpbl1cbn0pXG5jbGFzcyBBcHAge1xuICBjb25zdHJ1Y3RvcigpIHt9XG59XG5cblxuYm9vdHN0cmFwKEFwcCk7Il0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9
