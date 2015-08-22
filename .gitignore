@@ -33,6 +33,9 @@ node_modules
 .vs
 .ntvs_analysis.dat
 
+#gulp-gh-pages publish
+.publish
+
 dist
 dev
 lib
