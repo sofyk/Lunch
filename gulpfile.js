@@ -13,6 +13,7 @@ var template = require('gulp-template');
 var tsc = require('gulp-typescript');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
+var ghPages = require('gulp-gh-pages');
 
 var Builder = require('systemjs-builder');
 var del = require('del');
@@ -32,7 +33,10 @@ var connectLivereload = require('connect-livereload');
 
 // --------------
 // Configuration.
-var APP_BASE = '/';
+var APP_BASE = {
+  dev: '/',
+  prod: '/Lunch/'
+};
 
 var PATH = {
   dest: {
@@ -149,7 +153,7 @@ gulp.task('build.js.dev', function () {
 
   return result.js
     .pipe(sourcemaps.write())
-    .pipe(template(templateLocals()))
+    .pipe(template(templateLocals('dev')))
     .pipe(gulp.dest(PATH.dest.dev.all));
 });
 
@@ -162,7 +166,7 @@ gulp.task('build.index.dev', function() {
   var target = gulp.src(injectableDevAssetsRef(), { read: false });
   return gulp.src('./app/index.html')
     .pipe(inject(target, { transform: transformPath('dev') }))
-    .pipe(template(templateLocals()))
+    .pipe(template(templateLocals('dev')))
     .pipe(gulp.dest(PATH.dest.dev.all));
 });
 
@@ -201,7 +205,7 @@ gulp.task('build.js.tmp', function () {
     .pipe(tsc(tsProject));
 
   return result.js
-    .pipe(template({ VERSION: getVersion() }))
+    .pipe(template(templateLocals('prod')))
     .pipe(gulp.dest('tmp'));
 });
 
@@ -219,7 +223,7 @@ gulp.task('build.init.prod', function() {
 
   return result.js
     .pipe(uglify())
-    .pipe(template(templateLocals()))
+    .pipe(template(templateLocals('prod')))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(PATH.dest.prod.all));
 });
@@ -227,7 +231,7 @@ gulp.task('build.init.prod', function() {
 gulp.task('build.assets.prod', ['build.js.prod'], function () {
   var filterHTML = filter('**/*.html');
   var filterCSS = filter('**/*.css');
-  return gulp.src(['./app/**/*.html', './app/**/*.css'])
+  return gulp.src(['./app/**/*.html', './app/**/*.css', './app/**/*.json'])
     .pipe(filterHTML)
     .pipe(minifyHTML(HTMLMinifierOpts))
     .pipe(filterHTML.restore())
@@ -242,7 +246,7 @@ gulp.task('build.index.prod', function() {
                          join(PATH.dest.prod.all, '**/*.css')], { read: false });
   return gulp.src('./app/index.html')
     .pipe(inject(target, { transform: transformPath('prod') }))
-    .pipe(template(templateLocals()))
+    .pipe(template(templateLocals('prod')))
     .pipe(gulp.dest(PATH.dest.prod.all));
 });
 
@@ -305,6 +309,19 @@ gulp.task('livereload', function() {
 });
 
 // --------------
+// Deploy.
+
+gulp.task('deploy.prod', function () {
+  return gulp.src('./dist/prod/**/*')
+    .pipe(ghPages());
+});
+
+gulp.task('deploy.dev', function () {
+  return gulp.src('./dist/dev/**/*')
+    .pipe(ghPages());
+});
+
+// --------------
 // Utils.
 
 function notifyLiveReload(e) {
@@ -317,10 +334,11 @@ function notifyLiveReload(e) {
 }
 
 function transformPath(env) {
-  var v = '?v=' + getVersion();
+  var v = '?v=' + getVersion(),
+      appBase = getAppBase(env);
   return function (filepath) {
     var filename = filepath.replace('/' + PATH.dest[env].all, '') + v;
-    arguments[0] = join(APP_BASE, filename);
+    arguments[0] = join(appBase, filename);
     return inject.transform.apply(inject.transform, arguments);
   };
 }
@@ -339,11 +357,16 @@ function getVersion(){
   return pkg.version;
 }
 
-function templateLocals() {
+function templateLocals(env) {
+  var appBase = getAppBase(env);
   return {
     VERSION: getVersion(),
-    APP_BASE: APP_BASE
+    APP_BASE: appBase
   };
+}
+
+function getAppBase(env) {
+  return (env === 'prod') ? APP_BASE.prod : APP_BASE.dev;
 }
 
 function registerBumpTasks() {
@@ -363,12 +386,14 @@ function registerBumpTasks() {
 }
 
 function serveSPA(env) {
-  var app;
-  app = express().use(APP_BASE, connectLivereload({ port: LIVE_RELOAD_PORT }), serveStatic(join(__dirname, PATH.dest[env].all)));
-  app.all(APP_BASE + '*', function (req, res, next) {
+  var app,
+      appBase = getAppBase(env);
+
+  app = express().use(appBase, connectLivereload({ port: LIVE_RELOAD_PORT }), serveStatic(join(__dirname, PATH.dest[env].all)));
+  app.all(appBase + '*', function (req, res, next) {
     res.sendFile(join(__dirname, PATH.dest[env].all));
   });
   app.listen(PORT, function () {
-    openResource('http://localhost:' + PORT + APP_BASE);
+    openResource('http://localhost:' + PORT + appBase);
   });
 }

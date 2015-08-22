@@ -14,7 +14,7 @@ import {Http, httpInjectables} from 'angular2/angular2';
 export class People {
   people: Object;
   constructor(http: Http) {
-    http.get('../../data/people.json')
+    http.get('<%= APP_BASE %>data/people.json')
     //Get the RxJS Subject
       .toRx()
     // Call map on the response observable to get the parsed people object
